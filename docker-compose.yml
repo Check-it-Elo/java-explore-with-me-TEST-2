@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  stats-db:
+    image: postgres:15
+    container_name: stats-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ewm_stats
+    ports:
+      - "6541:5432"
+
+  stats-service:
+    build: ./ewm-stats-server
+    container_name: stats-service
+    depends_on:
+      - stats-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/ewm_stats
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    ports:
+      - "9090:9090"
+
+  main-db:
+    image: postgres:15
+    container_name: main-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ewm_main
+    ports:
+      - "6542:5432"
+
+  main-service:
+    build: ./ewm-main-service
+    container_name: main-service
+    depends_on:
+      - main-db
+      - stats-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm_main
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - STATS_URL=http://stats-service:9090
+      - SPRING_JPA_PROPERTIES_HIBERNATE_QUERY_ESCAPECHARACTER=\\
+    ports:
+      - "8080:8080"
