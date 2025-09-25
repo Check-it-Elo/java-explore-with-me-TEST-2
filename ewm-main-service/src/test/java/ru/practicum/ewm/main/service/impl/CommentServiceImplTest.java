@@ -34,19 +34,26 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CommentServiceImplTest {
 
-    @Mock CommentRepository commentRepository;
-    @Mock EventRepository eventRepository;
-    @Mock UserRepository userRepository;
-    @Mock CommentMapper commentMapper;
+    @Mock
+    CommentRepository commentRepository;
+    @Mock
+    EventRepository eventRepository;
+    @Mock
+    UserRepository userRepository;
+    @Mock
+    CommentMapper commentMapper;
 
-    @InjectMocks CommentServiceImpl service;
+    @InjectMocks
+    CommentServiceImpl service;
 
     private static User user(long id) {
-        return User.builder().id(id).name("u"+id).email("u"+id+"@m.com").build();
+        return User.builder().id(id).name("u" + id).email("u" + id + "@m.com").build();
     }
+
     private static Event event(long id, long initiatorId, EventState state) {
         return Event.builder().id(id).initiator(user(initiatorId)).state(state).build();
     }
+
     private static Comment comment(long id, long eventId, long authorId, String text, LocalDateTime created, LocalDateTime updated) {
         return Comment.builder()
                 .id(id)
@@ -57,6 +64,7 @@ class CommentServiceImplTest {
                 .updatedOn(updated)
                 .build();
     }
+
     private static CommentDto dtoOf(Comment c) {
         return CommentDto.builder()
                 .id(c.getId())
