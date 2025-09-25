@@ -24,7 +24,7 @@ Template repository for ExploreWithMe project.
 
 - [ewm-main-service-spec.json](./ewm-main-service-spec.json)
 - [ewm-stats-service-spec.json](./ewm-stats-service-spec.json)
-- [ewm-comments-spec.json](./ewm-comments-spec.json) — новая коллекция для проверки комментариев
+- [ewm-comments-spec.json](postman/feature.json) — новая коллекция для проверки комментариев
 
 ---
 
