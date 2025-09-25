@@ -1,0 +1,208 @@
+{
+  "info": {
+    "name": "EWM Comments API",
+    "_postman_id": "b1c9f420-6e1d-4f56-92af-8f32c9d1e3ab",
+    "description": "Коллекция для проверки новой фичи Comments (этап 3 диплома)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create comment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Крутое событие!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/{{userId}}/events/{{eventId}}/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}",
+            "events",
+            "{{eventId}}",
+            "comments"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"201 Created\", () => pm.response.code === 201 || pm.response.code === 200);",
+              "pm.environment.set(\"commentId\", pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get comments for event",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/events/{{eventId}}/comments?from=0&size=10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "{{eventId}}",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "from",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"200 OK\", () => pm.response.code === 200);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Edit own comment",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Обновил мнение: очень круто!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/{{userId}}/comments/{{commentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}",
+            "comments",
+            "{{commentId}}"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"200 OK\", () => pm.response.code === 200);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete own comment",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/users/{{userId}}/comments/{{commentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}",
+            "comments",
+            "{{commentId}}"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"204 No Content\", () => pm.response.code === 204 || pm.response.code === 200);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete any comment (admin)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/admin/comments/{{commentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "comments",
+            "{{commentId}}"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"204 No Content\", () => pm.response.code === 204 || pm.response.code === 200);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "eventId",
+      "value": "1"
+    },
+    {
+      "key": "commentId",
+      "value": ""
+    }
+  ]
+}
